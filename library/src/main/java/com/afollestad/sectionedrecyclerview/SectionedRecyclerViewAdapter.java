@@ -49,12 +49,16 @@ public abstract class SectionedRecyclerViewAdapter<VH extends SectionedViewHolde
 
   public void expandSection(int section) {
     positionManager.expandSection(section);
-    notifyDataSetChanged();
+    notifyItemChanged(getSectionHeaderIndex(section));
+    int addFooter = showFooters() ? 1 : 0;
+    notifyItemRangeInserted(getAbsolutePosition(section, 0), getItemCount(section) + addFooter);
   }
 
   public void collapseSection(int section) {
     positionManager.collapseSection(section);
-    notifyDataSetChanged();
+    notifyItemChanged(getSectionHeaderIndex(section));
+    int addFooter = showFooters() ? 1 : 0;
+    notifyItemRangeRemoved(getAbsolutePosition(section, 0), getItemCount(section) + addFooter);
   }
 
   public void expandAllSections() {
@@ -74,8 +78,11 @@ public abstract class SectionedRecyclerViewAdapter<VH extends SectionedViewHolde
   }
 
   public void toggleSectionExpanded(int section) {
-    positionManager.toggleSectionExpanded(section);
-    notifyDataSetChanged();
+    if (positionManager.isSectionExpanded(section)) {
+      collapseSection(section);
+    } else {
+      expandSection(section);
+    }
   }
 
   public abstract int getSectionCount();

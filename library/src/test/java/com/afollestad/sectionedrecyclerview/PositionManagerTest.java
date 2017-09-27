@@ -299,16 +299,6 @@ public class PositionManagerTest {
   }
 
   @Test
-  public void test_toggle_expanded() {
-    positionManager.collapseSection(1);
-    assertThat(invalidate()).isEqualTo(7);
-    positionManager.toggleSectionExpanded(1);
-    assertThat(invalidate()).isEqualTo(12);
-    positionManager.toggleSectionExpanded(1);
-    assertThat(invalidate()).isEqualTo(7);
-  }
-
-  @Test
   public void test_has_invalidated() {
     assertThat(positionManager.hasInvalidated()).isTrue();
   }
